@@ -1,0 +1,49 @@
+name: cassava_disease_detector
+description: MVP приложение для диагностики болезней листьев кассавы
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # UI
+  cupertino_icons: ^1.0.6
+  
+  # HTTP и API
+  http: ^1.1.0
+  dio: ^5.4.0
+  
+  # Изображения
+  image_picker: ^1.0.7
+  cached_network_image: ^3.3.0
+  
+  # Хранение данных
+  shared_preferences: ^2.2.2
+  sqflite: ^2.3.0
+  path_provider: ^2.1.1
+  
+  # Утилиты
+  intl: ^0.18.1
+  path: ^1.8.3
+  
+  # JSON
+  json_annotation: ^4.8.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.7
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+

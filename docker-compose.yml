@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  cassava-api:
+    build: .
+    container_name: cassava-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./notebooks:/app/models:ro
+    environment:
+      - MODEL_DIR=/app/models
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
