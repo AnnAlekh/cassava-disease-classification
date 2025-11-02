@@ -1,221 +1,131 @@
-# 🍃 Cassava Disease Classification Project
+<div align="center">
 
-Система для автоматической классификации болезней листьев кассавы с использованием глубокого обучения. Проект включает веб-API на FastAPI и мобильное приложение на Flutter.
+# 👋 Привет, я Анна!
 
-## 📋 Описание
+### 🐍 Python разработчик | 💡 Решаю алгоритмические задачи
 
-Проект разработан для помощи фермерам в раннем обнаружении и классификации заболеваний листьев кассавы. Система использует сверточные нейронные сети на основе EfficientNet-B0 для распознавания 5 классов:
-
-- **CBB** - Cassava Bacterial Blight (Бактериальная пятнистость)
-- **CBSD** - Cassava Brown Streak Disease (Коричневая полосатость)
-- **CGM** - Cassava Green Mottle (Зеленая крапчатость)
-- **CMD** - Cassava Mosaic Disease (Мозаичная болезнь)
-- **Healthy** - Здоровый лист
-
-## 🎯 Текущие результаты модели
-
-### Метрики на тестовых данных:
-- **Accuracy**: 78.50%
-- **Precision (Macro)**: 66.39%
-- **Recall (Macro)**: 75.73%
-- **F1-Score (Macro)**: 69.25%
-
-## 🏗️ Архитектура проекта
-
-```
-cassava_project/
-├── app.py                      # FastAPI приложение
-├── requirements.txt            # Python зависимости
-├── Dockerfile                  # Docker конфигурация для API
-├── docker-compose.yml          # Docker Compose конфигурация
-├── evaluate_model.py           # Скрипт для оценки модели
-├── improve_model.py            # Скрипт для улучшения модели
-├── notebooks/                  # Jupyter ноутбуки для обучения
-│   ├── experiment.ipynb        # Эксперименты и обучение
-│   └── *.pth                   # Обученные модели
-├── mobile_app/                 # Flutter мобильное приложение
-│   ├── lib/
-│   │   ├── main.dart
-│   │   ├── models/             # Модели данных
-│   │   ├── screens/            # Экраны приложения
-│   │   └── services/           # Сервисы (API, БД)
-│   └── pubspec.yaml
-└── results/                    # Результаты тестирования
-    ├── metrics_*.json
-    ├── report_*.txt
-    └── confusion_matrix.png
-```
-
-## 🚀 Быстрый старт
-
-### Предварительные требования
-
-- Python 3.8+
-- PyTorch 2.0+
-- Flutter SDK 3.0+ (для мобильного приложения)
-- Docker и Docker Compose (опционально)
-
-### Установка и запуск API
-
-1. **Клонируйте репозиторий**
-```bash
-git clone <repository-url>
-cd cassava_project
-```
-
-2. **Создайте виртуальное окружение**
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# или
-venv\Scripts\activate  # Windows
-```
-
-3. **Установите зависимости**
-```bash
-pip install -r requirements.txt
-```
-
-4. **Разместите обученную модель**
-```bash
-# Поместите файл модели в notebooks/ или укажите путь в переменной окружения
-export MODEL_DIR=/path/to/models
-```
-
-5. **Запустите API сервер**
-```bash
-python app.py
-# или
-uvicorn app:app --host 0.0.0.0 --port 8000
-```
-
-API будет доступен по адресу: `http://localhost:8000`
-- Документация API: `http://localhost:8000/docs`
-- Проверка здоровья: `http://localhost:8000/health`
-
-### Запуск через Docker
-
-```bash
-docker-compose up -d
-```
-
-### Установка и запуск мобильного приложения
-
-1. **Перейдите в директорию мобильного приложения**
-```bash
-cd mobile_app
-```
-
-2. **Установите зависимости Flutter**
-```bash
-flutter pub get
-```
-
-3. **Запустите приложение**
-```bash
-flutter run
-```
-
-## 📡 API Эндпоинты
-
-### `GET /`
-Корневой эндпоинт с информацией об API
-
-### `GET /health`
-Проверка состояния API и модели
-```json
-{
-  "status": "healthy",
-  "model_loaded": true,
-  "memory_usage": 45.2,
-  "timestamp": "2024-01-01T12:00:00"
-}
-```
-
-### `GET /model/info`
-Информация о загруженной модели
-
-### `POST /predict`
-Предсказание класса болезни по изображению
-- **Body**: multipart/form-data с файлом изображения
-- **Response**: JSON с предсказаниями, уверенностью и временем инференса
-
-### `POST /predict/batch`
-Пакетное предсказание для нескольких изображений (до 10 файлов)
-
-## 🔧 Технологический стек
-
-### Backend
-- **FastAPI** - Современный веб-фреймворк для Python
-- **PyTorch** - Глубокое обучение
-- **EfficientNet-B0** - Архитектура CNN
-- **Albumentations** - Аугментация изображений
-- **Uvicorn** - ASGI сервер
-
-### Mobile
-- **Flutter** - Кроссплатформенная разработка
-- **Dio** - HTTP клиент
-- **SQFlite** - Локальная база данных
-- **Image Picker** - Работа с камерой
-
-### DevOps
-- **Docker** - Контейнеризация
-- **Docker Compose** - Оркестрация контейнеров
-
-## 📊 Модель машинного обучения
-
-### Архитектура
-- **Backbone**: EfficientNet-B0 (предобученная на ImageNet)
-- **Classifier**: Полносвязная сеть с регуляризацией
-  - Dropout (0.3, 0.4, 0.2)
-  - BatchNorm
-  - ReLU активации
-
-### Поддерживаемые форматы
-- PyTorch (.pth)
-- TorchScript (.pt)
-- ONNX (.onnx) - в разработке
-
-## 📈 Улучшение модели
-
-См. файл `IMPROVEMENT_RECOMMENDATIONS.md` для детальных рекомендаций по улучшению результатов модели.
-
-Основные направления:
-- Использование Focal Loss для дисбаланса классов
-- SMOTE oversampling для minority классов
-- MixUp/CutMix аугментации
-- Ансамблирование моделей
-- Test-Time Augmentation (TTA)
-
-## 🤝 Вклад в проект
-
-Мы приветствуем вклад в проект! Пожалуйста:
-
-1. Форкните репозиторий
-2. Создайте ветку для новой функции (`git checkout -b feature/AmazingFeature`)
-3. Зафиксируйте изменения (`git commit -m 'Add some AmazingFeature'`)
-4. Отправьте в ветку (`git push origin feature/AmazingFeature`)
-5. Откройте Pull Request
-
-## 📝 Лицензия
-
-Этот проект распространяется под лицензией MIT. См. файл `LICENSE` для подробностей.
-
-## 👥 Авторы
-
-- **Команда разработки** - Изначальная работа
-
-## 🙏 Благодарности
-
-- Kaggle Cassava Leaf Disease Classification Challenge
-- PyTorch и FastAPI сообщества
-- Все контрибьюторы проекта
-
-## 📞 Контакты
-
-По вопросам и предложениям создавайте Issues в репозитории.
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=32&duration=2500&pause=1000&color=00C853&width=435&lines=Python+разработчик;Алгоритмы+и+структуры+данных;Machine+Learning+энтузиаст)](https://git.io/typing-svg)
 
 ---
 
-⭐ Если проект полезен, поставьте звезду!
+</div>
+
+## 🚀 Обо мне
+
+```python
+class Developer:
+    def __init__(self):
+        self.name = "Анна"
+        self.location = "Россия"
+        self.languages = ["Python", "SQL"]
+        self.interests = [
+            "Алгоритмы и структуры данных",
+            "Машинное обучение",
+            "Deep Learning",
+            "Решение задач на LeetCode"
+        ]
+    
+    def current_focus(self):
+        return "Изучаю ML модели для классификации изображений"
+    
+    def goal(self):
+        return "Развиваюсь в направлении Data Science и ML Engineering"
+```
+
+---
+
+## 🛠️ Технологический стек
+
+### Языки программирования
+![Python](https://img.shields.io/badge/-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![SQL](https://img.shields.io/badge/-SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white)
+
+### Инструменты и технологии
+![PyTorch](https://img.shields.io/badge/-PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
+![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Git](https://img.shields.io/badge/-Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Flutter](https://img.shields.io/badge/-Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+
+### Среды разработки
+![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![Jupyter](https://img.shields.io/badge/-Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
+
+---
+
+## 📊 GitHub статистика
+
+<div align="center">
+  
+  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=AnnAlekh&show_icons=true&theme=radical&hide_border=true&include_all_commits=true&count_private=true"/>
+  <img height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=AnnAlekh&theme=radical&hide_border=true"/>
+  
+</div>
+
+<div align="center">
+  
+  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=AnnAlekh&layout=compact&langs_count=8&theme=radical&hide_border=true"/>
+  
+</div>
+
+---
+
+## 🔥 Популярные репозитории
+
+<div align="center">
+  
+  <a href="https://github.com/AnnAlekh/leetcode-solutions">
+    <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=AnnAlekh&repo=leetcode-solutions&theme=radical&hide_border=true" />
+  </a>
+  
+</div>
+
+---
+
+## 💻 Языки программирования
+
+<p align="center">
+  <img src="https://skill-icons.dev/icons?i=py,git,github,vscode,markdown,docker,flask,fastapi,pytorch&perline=5" alt="Tech Stack" />
+</p>
+
+---
+
+## 🏆 Достижения
+
+- 🎯 Решаю задачи на LeetCode
+- 🚀 Развиваю навыки в машинном обучении
+- 📚 Изучаю алгоритмы и структуры данных
+- 🤖 Работаю с нейронными сетями (PyTorch)
+
+---
+
+## 📈 Активность
+
+![GitHub Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=AnnAlekh&theme=radical&hide_border=true)
+
+### 🐍 Змейка ест мою активность GitHub
+
+![Snake animation](https://github.com/AnnAlekh/AnnAlekh/blob/output/github-contribution-grid-snake.svg)
+
+---
+
+## 📫 Свяжитесь со мной
+
+<div align="center">
+
+[![Telegram](https://img.shields.io/badge/-Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/AnnAlekh)
+[![Email](https://img.shields.io/badge/-Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:dumooroo@gmail.com)
+[![LeetCode](https://img.shields.io/badge/-LeetCode-FFA116?style=for-the-badge&logo=leetcode&logoColor=black)](https://leetcode.com/u/AnnAlekh/)
+
+</div>
+
+---
+
+<div align="center">
+  
+  ### ⭐ Спасибо за посещение! Не забудьте поставить звезду, если вам нравятся мои проекты!
+  
+  <img src="https://komarev.com/ghpvc/?username=AnnAlekh&color=blueviolet&style=flat-square" alt="Profile views" />
+  
+</div>
 
