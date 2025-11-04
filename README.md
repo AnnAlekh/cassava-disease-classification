@@ -1,221 +1,221 @@
-# 🍃 Cassava Disease Classification Project
+<div align="center">
 
-Система для автоматической классификации болезней листьев кассавы с использованием глубокого обучения. Проект включает веб-API на FastAPI и мобильное приложение на Flutter.
+# 🌿 Cassava Leaf Disease Classification
 
-## 📋 Описание
+### Система классификации болезней листьев кассавы на основе глубокого обучения
 
-Проект разработан для помощи фермерам в раннем обнаружении и классификации заболеваний листьев кассавы. Система использует сверточные нейронные сети на основе EfficientNet-B0 для распознавания 5 классов:
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-orange.svg)](https://pytorch.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-green.svg)](https://fastapi.tiangolo.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-- **CBB** - Cassava Bacterial Blight (Бактериальная пятнистость)
-- **CBSD** - Cassava Brown Streak Disease (Коричневая полосатость)
-- **CGM** - Cassava Green Mottle (Зеленая крапчатость)
-- **CMD** - Cassava Mosaic Disease (Мозаичная болезнь)
-- **Healthy** - Здоровый лист
-
-## 🎯 Текущие результаты модели
-
-### Метрики на тестовых данных:
-- **Accuracy**: 78.50%
-- **Precision (Macro)**: 66.39%
-- **Recall (Macro)**: 75.73%
-- **F1-Score (Macro)**: 69.25%
-
-## 🏗️ Архитектура проекта
-
-```
-cassava_project/
-├── app.py                      # FastAPI приложение
-├── requirements.txt            # Python зависимости
-├── Dockerfile                  # Docker конфигурация для API
-├── docker-compose.yml          # Docker Compose конфигурация
-├── evaluate_model.py           # Скрипт для оценки модели
-├── improve_model.py            # Скрипт для улучшения модели
-├── notebooks/                  # Jupyter ноутбуки для обучения
-│   ├── experiment.ipynb        # Эксперименты и обучение
-│   └── *.pth                   # Обученные модели
-├── mobile_app/                 # Flutter мобильное приложение
-│   ├── lib/
-│   │   ├── main.dart
-│   │   ├── models/             # Модели данных
-│   │   ├── screens/            # Экраны приложения
-│   │   └── services/           # Сервисы (API, БД)
-│   └── pubspec.yaml
-└── results/                    # Результаты тестирования
-    ├── metrics_*.json
-    ├── report_*.txt
-    └── confusion_matrix.png
-```
-
-## 🚀 Быстрый старт
-
-### Предварительные требования
-
-- Python 3.8+
-- PyTorch 2.0+
-- Flutter SDK 3.0+ (для мобильного приложения)
-- Docker и Docker Compose (опционально)
-
-### Установка и запуск API
-
-1. **Клонируйте репозиторий**
-```bash
-git clone <repository-url>
-cd cassava_project
-```
-
-2. **Создайте виртуальное окружение**
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# или
-venv\Scripts\activate  # Windows
-```
-
-3. **Установите зависимости**
-```bash
-pip install -r requirements.txt
-```
-
-4. **Разместите обученную модель**
-```bash
-# Поместите файл модели в notebooks/ или укажите путь в переменной окружения
-export MODEL_DIR=/path/to/models
-```
-
-5. **Запустите API сервер**
-```bash
-python app.py
-# или
-uvicorn app:app --host 0.0.0.0 --port 8000
-```
-
-API будет доступен по адресу: `http://localhost:8000`
-- Документация API: `http://localhost:8000/docs`
-- Проверка здоровья: `http://localhost:8000/health`
-
-### Запуск через Docker
-
-```bash
-docker-compose up -d
-```
-
-### Установка и запуск мобильного приложения
-
-1. **Перейдите в директорию мобильного приложения**
-```bash
-cd mobile_app
-```
-
-2. **Установите зависимости Flutter**
-```bash
-flutter pub get
-```
-
-3. **Запустите приложение**
-```bash
-flutter run
-```
-
-## 📡 API Эндпоинты
-
-### `GET /`
-Корневой эндпоинт с информацией об API
-
-### `GET /health`
-Проверка состояния API и модели
-```json
-{
-  "status": "healthy",
-  "model_loaded": true,
-  "memory_usage": 45.2,
-  "timestamp": "2024-01-01T12:00:00"
-}
-```
-
-### `GET /model/info`
-Информация о загруженной модели
-
-### `POST /predict`
-Предсказание класса болезни по изображению
-- **Body**: multipart/form-data с файлом изображения
-- **Response**: JSON с предсказаниями, уверенностью и временем инференса
-
-### `POST /predict/batch`
-Пакетное предсказание для нескольких изображений (до 10 файлов)
-
-## 🔧 Технологический стек
-
-### Backend
-- **FastAPI** - Современный веб-фреймворк для Python
-- **PyTorch** - Глубокое обучение
-- **EfficientNet-B0** - Архитектура CNN
-- **Albumentations** - Аугментация изображений
-- **Uvicorn** - ASGI сервер
-
-### Mobile
-- **Flutter** - Кроссплатформенная разработка
-- **Dio** - HTTP клиент
-- **SQFlite** - Локальная база данных
-- **Image Picker** - Работа с камерой
-
-### DevOps
-- **Docker** - Контейнеризация
-- **Docker Compose** - Оркестрация контейнеров
-
-## 📊 Модель машинного обучения
-
-### Архитектура
-- **Backbone**: EfficientNet-B0 (предобученная на ImageNet)
-- **Classifier**: Полносвязная сеть с регуляризацией
-  - Dropout (0.3, 0.4, 0.2)
-  - BatchNorm
-  - ReLU активации
-
-### Поддерживаемые форматы
-- PyTorch (.pth)
-- TorchScript (.pt)
-- ONNX (.onnx) - в разработке
-
-## 📈 Улучшение модели
-
-См. файл `IMPROVEMENT_RECOMMENDATIONS.md` для детальных рекомендаций по улучшению результатов модели.
-
-Основные направления:
-- Использование Focal Loss для дисбаланса классов
-- SMOTE oversampling для minority классов
-- MixUp/CutMix аугментации
-- Ансамблирование моделей
-- Test-Time Augmentation (TTA)
-
-## 🤝 Вклад в проект
-
-Мы приветствуем вклад в проект! Пожалуйста:
-
-1. Форкните репозиторий
-2. Создайте ветку для новой функции (`git checkout -b feature/AmazingFeature`)
-3. Зафиксируйте изменения (`git commit -m 'Add some AmazingFeature'`)
-4. Отправьте в ветку (`git push origin feature/AmazingFeature`)
-5. Откройте Pull Request
-
-## 📝 Лицензия
-
-Этот проект распространяется под лицензией MIT. См. файл `LICENSE` для подробностей.
-
-## 👥 Авторы
-
-- **Команда разработки** - Изначальная работа
-
-## 🙏 Благодарности
-
-- Kaggle Cassava Leaf Disease Classification Challenge
-- PyTorch и FastAPI сообщества
-- Все контрибьюторы проекта
-
-## 📞 Контакты
-
-По вопросам и предложениям создавайте Issues в репозитории.
+</div>
 
 ---
 
-⭐ Если проект полезен, поставьте звезду!
+## 📋 Описание
 
+Проект для классификации болезней листьев кассавы с использованием глубокого обучения. Система поддерживает:
+- 🚀 **FastAPI веб-интерфейс** - интуитивный браузерный интерфейс
+- 🔬 **Test Time Augmentation (TTA)** - улучшение точности предсказаний
+- 📊 **Визуализация результатов** - графики вероятностей и статистика
+- 🖼️ **Drag & Drop** - удобная загрузка изображений
+- 🎯 **Множество архитектур** - EfficientNet, ConvNeXt, ViT и др.
+
+## 🆕 Последние обновления
+
+### ✨ Веб-интерфейс (v2.0.0)
+- **Добавлен FastAPI веб-интерфейс** с красивым дизайном
+- **Drag & Drop** для загрузки изображений
+- **Визуализация результатов** с графиками вероятностей
+- **Поддержка TTA** с переключателем в интерфейсе
+- **Статистика** - время обработки, уверенность модели, архитектура
+- **API документация** - Swagger UI и ReDoc
+
+### 🔧 Технические улучшения
+- Поддержка разных архитектур моделей (EfficientNet-B4/B7, ConvNeXt, ViT)
+- Автоматический поиск лучшей доступной модели
+- Оптимизированная обработка изображений
+- Обработка ошибок и fallback механизмы
+
+---
+
+## 🖼️ Демонстрация работы
+
+![Веб-интерфейс](docs/images/web-interface-demo.png)
+
+*Веб-интерфейс для классификации болезней листьев кассавы*
+
+---
+
+## 🚀 Быстрый старт
+
+### Установка
+
+```bash
+# Клонировать репозиторий
+git clone https://github.com/AnnAlekh/cassava_project.git
+cd cassava_project
+
+# Установить зависимости
+pip install -r requirements.txt
+```
+
+### Запуск веб-интерфейса
+
+```bash
+# Запуск сервера
+python app.py
+
+# Или с помощью uvicorn
+uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+```
+
+После запуска откройте в браузере:
+- **Веб-интерфейс**: [http://localhost:8000](http://localhost:8000)
+- **API документация**: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+## 🎯 Использование
+
+### Веб-интерфейс
+
+1. Откройте `http://localhost:8000` в браузере
+2. Перетащите изображение листа кассавы в область загрузки или нажмите для выбора файла
+3. По желанию включите/выключите TTA (Test Time Augmentation)
+4. Нажмите "Классифицировать"
+5. Увидите результаты с вероятностями по каждому классу болезней
+
+### API
+
+```python
+import requests
+
+url = "http://localhost:8000/predict"
+files = {"file": open("image.jpg", "rb")}
+params = {"use_tta": True}
+
+response = requests.post(url, files=files, params=params)
+data = response.json()
+
+print(f"Top prediction: {data['predictions'][0]['class_name']}")
+print(f"Confidence: {data['predictions'][0]['confidence']:.2%}")
+```
+
+---
+
+## 📊 Классы болезней
+
+1. **Cassava Bacterial Blight (CBB)** - Бактериальный ожог
+2. **Cassava Brown Streak Disease (CBSD)** - Бурая полосатость
+3. **Cassava Green Mottle (CGM)** - Зеленая крапчатость
+4. **Cassava Mosaic Disease (CMD)** - Мозаичная болезнь
+5. **Healthy** - Здоровое растение
+
+---
+
+## 🛠️ Технологический стек
+
+- **Python** 3.8+
+- **PyTorch** 2.0+ - глубокое обучение
+- **FastAPI** - веб-фреймворк
+- **Albumentations** - аугментации изображений
+- **Torchvision** - модели и трансформации
+- **Pillow** - обработка изображений
+- **Uvicorn** - ASGI сервер
+
+---
+
+## 📁 Структура проекта
+
+```
+cassava_project/
+├── app.py                 # FastAPI приложение
+├── static/                # Веб-интерфейс
+│   └── index.html        # HTML интерфейс
+├── models/               # Обученные модели
+├── train_advanced_models.py  # Скрипт обучения
+├── run_experiments.py    # Эксперименты
+├── API_README.md         # Документация API
+├── README_EXPERIMENTS.md # Документация экспериментов
+└── requirements.txt     # Зависимости
+```
+
+---
+
+## 🔬 Эксперименты
+
+Проект включает множество экспериментов для улучшения точности:
+- Test Time Augmentation (TTA)
+- Оптимизация порогов классификации
+- Разные архитектуры моделей (EfficientNet, ConvNeXt, ViT)
+- Разные loss функции (Focal Loss, Label Smoothing)
+- Ансамбли моделей
+
+Подробнее: [README_EXPERIMENTS.md](README_EXPERIMENTS.md)
+
+---
+
+## 📚 Документация
+
+- [API документация](API_README.md) - полное описание API endpoints
+- [Эксперименты](README_EXPERIMENTS.md) - детальное описание экспериментов
+- [Swagger UI](http://localhost:8000/docs) - интерактивная API документация
+- [ReDoc](http://localhost:8000/redoc) - альтернативная документация
+
+---
+
+## 🎯 Особенности
+
+- ✅ **Автоматический поиск модели** - приложение ищет лучшую доступную модель
+- ✅ **TTA поддержка** - можно включить/выключить для баланса скорости и точности
+- ✅ **Визуализация** - графики вероятностей для каждого класса
+- ✅ **Drag & Drop** - удобная загрузка изображений
+- ✅ **Статистика** - время обработки, уверенность модели и т.д.
+- ✅ **REST API** - полный REST API для интеграции
+
+---
+
+## 📈 Производительность
+
+- **CPU**: ~200-500ms на изображение (без TTA)
+- **GPU**: ~50-100ms на изображение (без TTA)
+- **TTA**: увеличивает время обработки в 5 раз, но улучшает точность
+
+---
+
+## 🤝 Вклад
+
+Вклад в проект приветствуется! Пожалуйста, создайте issue или pull request.
+
+---
+
+## 📄 Лицензия
+
+Этот проект распространяется под лицензией MIT. См. файл [LICENSE](LICENSE) для подробностей.
+
+---
+
+## 👤 Автор
+
+**Анна**
+
+- GitHub: [@AnnAlekh](https://github.com/AnnAlekh)
+- Telegram: [@AnnAlekh](https://t.me/AnnAlekh)
+
+---
+
+## 🖼️ Демонстрация работы
+
+![Веб-интерфейс](docs/images/web-interface-demo.png)
+
+*Веб-интерфейс для классификации болезней листьев кассавы*
+
+---
+
+<div align="center">
+
+### ⭐ Спасибо за использование! Если проект полезен, поставьте звезду!
+
+</div>
